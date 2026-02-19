@@ -1,0 +1,23 @@
+Package: com.everlight.tweak
+Name: EverLight v2.0
+Version: 2.0.0
+Architecture: iphoneos-arm
+Description: Enhanced Animal Company Mod Menu with OP Features
+  Features:
+  • 10-Attempt Item Spawning System
+  • Item Spawner with Categories
+  • OP Tab with 25+ Powerful Mods
+  • RPC Functions: Teleport, Fling, Damage, Stun
+  • God Mode, No Clip, Super Speed
+  • Mass Fling, Money Hack, Item Rain
+  • Voice Effects, Color Changing
+  • Compatible with Sideloadly
+Maintainer: EverLight Team
+Author: EverLight
+Section: Tweaks
+Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 13.0)
+Conflicts: 
+Replaces: 
+Priority: optional
+Homepage: https://github.com/everlight/tweak
+Tag: purpose::extension, role::hacker

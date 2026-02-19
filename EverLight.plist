@@ -1,0 +1,14 @@
+{
+    Filter = {
+        Bundles = (
+            "com.animalcompany.game",
+            "com.animalcompany.ios",
+            "com.unity.animalcompany"
+        );
+        Executables = (
+            "AnimalCompany",
+            "Animal Company",
+            "UnityFramework"
+        );
+    };
+}

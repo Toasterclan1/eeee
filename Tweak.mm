@@ -423,7 +423,7 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
     NSString* msg = [NSString stringWithFormat:@"✓ %@ → (%.1f, %.1f, %.1f)", self.selectedItem, x, y, z];
     [self showStatus:msg color:[UIColor colorWithWhite:0.2 alpha:1]];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t_t)(1.0 * NSEC_PER_SEC)),
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
         [btn setTitle:@"SPAWN ITEM" forState:UIControlStateNormal];
         btn.enabled = YES;
@@ -433,7 +433,7 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
 - (void)showStatus:(NSString*)msg color:(UIColor*)color {
     self.statusLabel.text      = msg;
     self.statusLabel.textColor = color;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t_t)(3.0 * NSEC_PER_SEC)),
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
         self.statusLabel.text = @"";
     });
@@ -605,7 +605,7 @@ static void dylibMain() {
     installHook();
 
     // Then set up the UI overlay on the main thread
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t_t)(2.0 * NSEC_PER_SEC)),
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
         [[SpawnerOverlay shared] setup];
         NSLog(@"[Spawner] overlay ready");
@@ -705,20 +705,20 @@ typedef struct { float x; float y; float z; } OpVec3;
     if (!op_il2cppHandle) op_il2cppHandle = dlopen(0, 2);
     if (!op_il2cppHandle) return NO;
 
-    op_il2cpp_domain_get               = dlsym(op_il2cppHandle, "il2cpp_domain_get");
-    op_il2cpp_domain_get_assemblies    = dlsym(op_il2cppHandle, "il2cpp_domain_get_assemblies");
-    op_il2cpp_assembly_get_image       = dlsym(op_il2cppHandle, "il2cpp_assembly_get_image");
-    op_il2cpp_image_get_name           = dlsym(op_il2cppHandle, "il2cpp_image_get_name");
-    op_il2cpp_class_from_name          = dlsym(op_il2cppHandle, "il2cpp_class_from_name");
-    op_il2cpp_class_get_method_from_name = dlsym(op_il2cppHandle, "il2cpp_class_get_method_from_name");
-    op_il2cpp_string_new               = dlsym(op_il2cppHandle, "il2cpp_string_new");
-    op_il2cpp_runtime_invoke           = dlsym(op_il2cppHandle, "il2cpp_runtime_invoke");
-    op_il2cpp_resolve_icall            = dlsym(op_il2cppHandle, "il2cpp_resolve_icall");
-    op_il2cpp_class_get_field_from_name = dlsym(op_il2cppHandle, "il2cpp_class_get_field_from_name");
-    op_il2cpp_field_get_value          = dlsym(op_il2cppHandle, "il2cpp_field_get_value");
-    op_il2cpp_field_set_value          = dlsym(op_il2cppHandle, "il2cpp_field_set_value");
-    op_il2cpp_class_get_type           = dlsym(op_il2cppHandle, "il2cpp_class_get_type");
-    op_il2cpp_type_get_object          = dlsym(op_il2cppHandle, "il2cpp_type_get_object");
+		op_il2cpp_domain_get                 = (int64_t (*)(void))                               dlsym(op_il2cppHandle, "il2cpp_domain_get");
+		op_il2cpp_domain_get_assemblies      = (int64_t (*)(int64_t, int64_t *))                 dlsym(op_il2cppHandle, "il2cpp_domain_get_assemblies");
+		op_il2cpp_assembly_get_image         = (int64_t (*)(int64_t))                            dlsym(op_il2cppHandle, "il2cpp_assembly_get_image");
+		op_il2cpp_image_get_name             = (const char *(*)(int64_t))                        dlsym(op_il2cppHandle, "il2cpp_image_get_name");
+		op_il2cpp_class_from_name            = (int64_t (*)(int64_t, const char *, const char *))dlsym(op_il2cppHandle, "il2cpp_class_from_name");
+		op_il2cpp_class_get_method_from_name = (int64_t (*)(int64_t, const char *, int))         dlsym(op_il2cppHandle, "il2cpp_class_get_method_from_name");
+		op_il2cpp_string_new                 = (int64_t (*)(const char *))                       dlsym(op_il2cppHandle, "il2cpp_string_new");
+		op_il2cpp_runtime_invoke             = (int64_t (*)(int64_t, int64_t, void **, int64_t *))dlsym(op_il2cppHandle, "il2cpp_runtime_invoke");
+		op_il2cpp_resolve_icall              = (int64_t (*)(const char *))                       dlsym(op_il2cppHandle, "il2cpp_resolve_icall");
+		op_il2cpp_class_get_field_from_name  = (int64_t (*)(int64_t, const char *))              dlsym(op_il2cppHandle, "il2cpp_class_get_field_from_name");
+		op_il2cpp_field_get_value            = (int64_t (*)(int64_t, int64_t, void *))           dlsym(op_il2cppHandle, "il2cpp_field_get_value");
+		op_il2cpp_field_set_value            = (void (*)(int64_t, int64_t, void *))              dlsym(op_il2cppHandle, "il2cpp_field_set_value");
+		op_il2cpp_class_get_type             = (int64_t (*)(int64_t))                            dlsym(op_il2cppHandle, "il2cpp_class_get_type");
+		op_il2cpp_type_get_object            = (int64_t (*)(int64_t))                            dlsym(op_il2cppHandle, "il2cpp_type_get_object");
 
     if (op_il2cpp_domain_get &&
         op_il2cpp_class_from_name &&

@@ -1,4 +1,3 @@
-
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #include <dlfcn.h>
@@ -34,36 +33,61 @@ static NSArray<NSString*>* itemList() {
     static NSArray* list = nil;
     if (!list) {
         list = @[
-            @"item_basic_fishing_rod",
-            @"item_bamboo_fishing_rod",
-            @"item_lava_fishing_rod",
-            @"item_radioactive_fishing_rod",
-            @"item_special_fishing_rod",
-            @"item_golden_fishing_rod",
-            @"item_fish_salmon",
-            @"item_fish_tuna",
-            @"item_fish_bass",
-            @"item_fish_trout",
-            @"item_fish_shark",
-            @"item_bait_worm",
-            @"item_bait_grub",
-            @"item_bait_lure",
-            @"item_bait_fly",
-            @"item_sword_basic",
-            @"item_sword_iron",
-            @"item_axe_wood",
-            @"item_bow_basic",
-            @"item_shovel",
-            @"item_pickaxe",
-            @"item_hammer",
-            @"item_wrench",
-            @"item_tnt",
-            @"item_grenade",
-            @"item_landmine",
-            @"item_bread",
-            @"item_apple",
-            @"item_cooked_fish",
-            @"item_stew",
+           @"item_ac_cola", @"item_alphablade", @"item_anti_gravity_grenade", @"item_apple",
+        @"item_arena_pistol", @"item_arena_shotgun", @"item_arrow", @"item_arrow_bomb",
+        @"item_arrow_heart", @"item_arrow_lightbulb", @"item_arrow_teleport", @"item_axe",
+        @"item_backpack", @"item_backpack_black", @"item_backpack_green", @"item_backpack_large_base",
+        @"item_backpack_large_basketball", @"item_backpack_large_clover", @"item_backpack_pink",
+        @"item_backpack_realistic", @"item_backpack_small_base", @"item_backpack_white",
+        @"item_backpack_with_flashlight", @"item_balloon", @"item_balloon_heart", @"item_banana",
+        @"item_banana_chips", @"item_baseball_bat", @"item_basic_fishing_rod", @"item_beans",
+        @"item_big_cup", @"item_bighead_larva", @"item_bloodlust_vial", @"item_boombox",
+        @"item_boombox_neon", @"item_boomerang", @"item_box_fan", @"item_brain_chunk",
+        @"item_brick", @"item_broccoli_grenade", @"item_broccoli_shrink_grenade", @"item_broom",
+        @"item_broom_halloween", @"item_burrito", @"item_calculator", @"item_cardboard_box",
+        @"item_ceo_plaque", @"item_clapper", @"item_cluster_grenade", @"item_coconut_shell",
+        @"item_cola", @"item_cola_large", @"item_company_ration", @"item_company_ration_heal",
+        @"item_cracker", @"item_crate", @"item_crossbow", @"item_crossbow_heart", @"item_crowbar",
+        @"item_cutie_dead", @"item_d20", @"item_demon_sword", @"item_disc",
+        @"item_disposable_camera", @"item_drill", @"item_drill_neon", @"item_dynamite",
+        @"item_dynamite_cube", @"item_egg", @"item_electrical_tape", @"item_eraser",
+        @"item_film_reel", @"item_finger_board", @"item_fish_dumb_fish", @"item_flamethrower",
+        @"item_flamethrower_skull", @"item_flamethrower_skull_ruby", @"item_flaregun",
+        @"item_flashbang", @"item_flashlight", @"item_flashlight_mega", @"item_flashlight_red",
+        @"item_flipflop_realistic", @"item_floppy3", @"item_floppy5", @"item_football",
+        @"item_friend_launcher", @"item_frying_pan", @"item_gameboy", @"item_glowstick",
+        @"item_goldbar", @"item_goldcoin", @"item_goop", @"item_goopfish", @"item_great_sword",
+        @"item_grenade", @"item_grenade_gold", @"item_grenade_launcher", @"item_guided_boomerang",
+        @"item_harddrive", @"item_hatchet", @"item_hawaiian_drum", @"item_heart_chunk",
+        @"item_heart_gun", @"item_heartchocolatebox", @"item_hh_key", @"item_hookshot",
+        @"item_hookshot_sword", @"item_hot_cocoa", @"item_hoverpad", @"item_impulse_grenade",
+        @"item_jetpack", @"item_joystick", @"item_joystick_inv_y", @"item_keycard",
+        @"item_lance", @"item_landmine", @"item_large_banana", @"item_megaphone",
+        @"item_metal_ball", @"item_metal_ball_x", @"item_metal_plate", @"item_metal_plate_2",
+        @"item_metal_rod", @"item_metal_rod_xmas", @"item_metal_triangle", @"item_momboss_box",
+        @"item_moneygun", @"item_motor", @"item_mountain_key", @"item_mug", @"item_needle",
+        @"item_nut", @"item_nut_drop", @"item_ogre_hands", @"item_ore_copper_large",
+        @"item_ore_copper_medium", @"item_ore_copper_small", @"item_ore_gold_large",
+        @"item_ore_gold_medium", @"item_ore_gold_small", @"item_ore_iron_large",
+        @"item_ore_iron_medium", @"item_ore_iron_small", @"item_paintball_gun",
+        @"item_paper_bag", @"item_pepper_spray", @"item_pie", @"item_pillow",
+        @"item_ping_pong_ball", @"item_ping_pong_paddle", @"item_pipe", @"item_plank",
+        @"item_playing_card", @"item_popcorn", @"item_potato", @"item_potato_chips",
+        @"item_present", @"item_present_1", @"item_present_2", @"item_present_3",
+        @"item_pumpkin", @"item_rainstick", @"item_remote_bomb", @"item_remote_bomb_detonator",
+        @"item_revolver", @"item_rock", @"item_rock_large", @"item_rope",
+        @"item_rpg", @"item_rpg_rocket", @"item_rubber_duck", @"item_salt",
+        @"item_scissors", @"item_shield", @"item_shovel", @"item_shuriken",
+        @"item_skateboard", @"item_ski_mask", @"item_skull", @"item_slime",
+        @"item_slime_ball", @"item_smoke_grenade", @"item_snowball", @"item_snowball_launcher",
+        @"item_soda_can", @"item_spear", @"item_spike_trap", @"item_spring",
+        @"item_staff", @"item_stink_bomb", @"item_stopwatch", @"item_sword",
+        @"item_table_leg", @"item_tape", @"item_tazer", @"item_tennis_ball",
+        @"item_tennis_racket", @"item_tire", @"item_tomato", @"item_torch",
+        @"item_toy_car", @"item_trampoline", @"item_trophy", @"item_umbrella",
+        @"item_vacuum", @"item_volleyball", @"item_watering_can", @"item_whip",
+        @"item_whistle", @"item_wrench", @"item_xmas_sword", @"item_xmas_tree",
+        @"item_yo_yo"
             
         ];
     }
@@ -587,3 +611,280 @@ static void dylibMain() {
         NSLog(@"[Spawner] overlay ready");
     });
 }
+
+
+// =============================================================================
+//  ⑦ CATEGORY: op — IL2CPP / RPC helpers (ported from XDMenu.xm)
+// =============================================================================
+
+// ── IL2CPP function pointers ─────────────────────────────────────────────────
+static void*       op_il2cppHandle                        = nil;
+static BOOL        op_isInitialized                       = NO;
+
+static __int64 (*op_il2cpp_domain_get)(void);
+static __int64 (*op_il2cpp_domain_get_assemblies)(__int64, __int64 *);
+static __int64 (*op_il2cpp_assembly_get_image)(__int64);
+static const char *(*op_il2cpp_image_get_name)(__int64);
+static __int64 (*op_il2cpp_class_from_name)(__int64, const char *, const char *);
+static __int64 (*op_il2cpp_class_get_method_from_name)(__int64, const char *, int);
+static __int64 (*op_il2cpp_runtime_invoke)(__int64, __int64, void **, __int64 *);
+static __int64 (*op_il2cpp_resolve_icall)(const char *);
+static __int64 (*op_il2cpp_class_get_field_from_name)(__int64, const char *);
+static void    (*op_il2cpp_field_set_value)(__int64, __int64, void *);
+static __int64 (*op_il2cpp_field_get_value)(__int64, __int64, void *);
+static __int64 (*op_il2cpp_class_get_type)(__int64);
+static __int64 (*op_il2cpp_type_get_object)(__int64);
+static __int64 (*op_il2cpp_string_new)(const char *);
+
+// ── Cached game class / method handles ───────────────────────────────────────
+static __int64 op_gameImage                       = 0;
+static __int64 op_unityImage                      = 0;
+static __int64 op_netPlayerClass                  = 0;
+static __int64 op_prefabGeneratorClass            = 0;
+static __int64 op_gameObjectClass                 = 0;
+static __int64 op_transformClass                  = 0;
+static __int64 op_objectClass                     = 0;
+static __int64 op_gameManagerClass                = 0;
+static __int64 op_getLocalPlayerMethod            = 0;
+static __int64 op_giveSelfMoneyMethod             = 0;
+static __int64 op_spawnItemMethod                 = 0;
+static __int64 op_findObjectOfTypeMethod          = 0;
+static __int64 op_itemSellingMachineClass         = 0;
+static __int64 op_rpcAddPlayerMoneyToAllMethod    = 0;
+static __int64 op_gameManagerAddPlayerMoneyMethod = 0;
+static __int64 op_Transform_get_position_Injected = 0;
+
+// ── Vec3 helper (shared with op category) ────────────────────────────────────
+typedef struct { float x; float y; float z; } OpVec3;
+
+@interface NSObject (op)
+
+// Initialisation
++ (BOOL)op_initializeIL2CPP;
++ (BOOL)op_initializeGameClasses;
+
+// Internal helpers
++ (__int64)op_getImageNamed:(const char *)name;
++ (__int64)op_getLocalPlayer;
+
+// RPC / game actions
++ (void)op_giveSelfMoney:(unsigned int)amount;
++ (void)op_giveAllPlayersMoney:(int)amount;
++ (void)op_spawnItem:(NSString *)itemName quantity:(int)quantity x:(float)x y:(float)y z:(float)z;
+
+@end
+
+@implementation NSObject (op)
+
+// ── Image lookup ─────────────────────────────────────────────────────────────
++ (__int64)op_getImageNamed:(const char *)name {
+    if (!op_isInitialized) return 0;
+    __int64 domain = op_il2cpp_domain_get();
+    if (!domain) return 0;
+    __int64 count = 0;
+    __int64 assemblies = op_il2cpp_domain_get_assemblies(domain, &count);
+    for (__int64 i = 0; i < count; i++) {
+        __int64 assembly = *((__int64 *)(assemblies + 8 * i));
+        __int64 image    = op_il2cpp_assembly_get_image(assembly);
+        const char *imgName = op_il2cpp_image_get_name(image);
+        if (imgName && strcmp(imgName, name) == 0) return image;
+    }
+    return 0;
+}
+
+// ── Bootstrap IL2CPP function pointers ───────────────────────────────────────
++ (BOOL)op_initializeIL2CPP {
+    uint32_t count = _dyld_image_count();
+    for (uint32_t i = 0; i < count; i++) {
+        const char *name = _dyld_get_image_name(i);
+        if (name && strstr(name, "UnityFramework")) {
+            op_il2cppHandle = dlopen(name, RTLD_NOW);
+            break;
+        }
+    }
+    if (!op_il2cppHandle) op_il2cppHandle = dlopen(0, 2);
+    if (!op_il2cppHandle) return NO;
+
+    op_il2cpp_domain_get               = dlsym(op_il2cppHandle, "il2cpp_domain_get");
+    op_il2cpp_domain_get_assemblies    = dlsym(op_il2cppHandle, "il2cpp_domain_get_assemblies");
+    op_il2cpp_assembly_get_image       = dlsym(op_il2cppHandle, "il2cpp_assembly_get_image");
+    op_il2cpp_image_get_name           = dlsym(op_il2cppHandle, "il2cpp_image_get_name");
+    op_il2cpp_class_from_name          = dlsym(op_il2cppHandle, "il2cpp_class_from_name");
+    op_il2cpp_class_get_method_from_name = dlsym(op_il2cppHandle, "il2cpp_class_get_method_from_name");
+    op_il2cpp_string_new               = dlsym(op_il2cppHandle, "il2cpp_string_new");
+    op_il2cpp_runtime_invoke           = dlsym(op_il2cppHandle, "il2cpp_runtime_invoke");
+    op_il2cpp_resolve_icall            = dlsym(op_il2cppHandle, "il2cpp_resolve_icall");
+    op_il2cpp_class_get_field_from_name = dlsym(op_il2cppHandle, "il2cpp_class_get_field_from_name");
+    op_il2cpp_field_get_value          = dlsym(op_il2cppHandle, "il2cpp_field_get_value");
+    op_il2cpp_field_set_value          = dlsym(op_il2cppHandle, "il2cpp_field_set_value");
+    op_il2cpp_class_get_type           = dlsym(op_il2cppHandle, "il2cpp_class_get_type");
+    op_il2cpp_type_get_object          = dlsym(op_il2cppHandle, "il2cpp_type_get_object");
+
+    if (op_il2cpp_domain_get &&
+        op_il2cpp_class_from_name &&
+        op_il2cpp_class_get_method_from_name &&
+        op_il2cpp_class_get_type &&
+        op_il2cpp_type_get_object) {
+        op_Transform_get_position_Injected =
+            op_il2cpp_resolve_icall("UnityEngine.Transform::get_position_Injected");
+        op_isInitialized = YES;
+        return YES;
+    }
+    return NO;
+}
+
+// ── Resolve game-specific classes and methods ─────────────────────────────────
++ (BOOL)op_initializeGameClasses {
+    if (!op_isInitialized) return NO;
+
+    op_gameImage = [self op_getImageNamed:"AnimalCompany.dll"];
+    if (!op_gameImage) return NO;
+
+    op_unityImage          = [self op_getImageNamed:"UnityEngine.CoreModule.dll"];
+    op_netPlayerClass      = op_il2cpp_class_from_name(op_gameImage, "AnimalCompany", "NetPlayer");
+    op_prefabGeneratorClass = op_il2cpp_class_from_name(op_gameImage, "AnimalCompany", "PrefabGenerator");
+
+    if (op_unityImage) {
+        op_gameObjectClass = op_il2cpp_class_from_name(op_unityImage, "UnityEngine", "GameObject");
+        op_transformClass  = op_il2cpp_class_from_name(op_unityImage, "UnityEngine", "Transform");
+    }
+    if (!op_netPlayerClass) return NO;
+
+    op_getLocalPlayerMethod = op_il2cpp_class_get_method_from_name(op_netPlayerClass, "get_localPlayer", 0);
+    op_giveSelfMoneyMethod  = op_il2cpp_class_get_method_from_name(op_netPlayerClass, "AddPlayerMoney", 1);
+
+    if (op_prefabGeneratorClass)
+        op_spawnItemMethod = op_il2cpp_class_get_method_from_name(op_prefabGeneratorClass, "SpawnItem", 4);
+
+    if (op_unityImage) {
+        op_objectClass = op_il2cpp_class_from_name(op_unityImage, "UnityEngine", "Object");
+        if (op_objectClass)
+            op_findObjectOfTypeMethod = op_il2cpp_class_get_method_from_name(op_objectClass, "FindObjectOfType", 1);
+    }
+
+    op_itemSellingMachineClass = op_il2cpp_class_from_name(op_gameImage, "AnimalCompany", "ItemSellingMachineController");
+    if (op_itemSellingMachineClass) {
+        op_rpcAddPlayerMoneyToAllMethod =
+            op_il2cpp_class_get_method_from_name(op_itemSellingMachineClass, "RPC_AddPlayerMoneyToAll", 1);
+        if (!op_rpcAddPlayerMoneyToAllMethod)
+            op_rpcAddPlayerMoneyToAllMethod =
+                op_il2cpp_class_get_method_from_name(op_itemSellingMachineClass, "RPC_AddPlayerMoneyToAll", 2);
+    }
+
+    op_gameManagerClass = op_il2cpp_class_from_name(op_gameImage, "AnimalCompany", "GameManager");
+    if (op_gameManagerClass)
+        op_gameManagerAddPlayerMoneyMethod =
+            op_il2cpp_class_get_method_from_name(op_gameManagerClass, "AddPlayerMoney", 1);
+
+    return YES;
+}
+
+// ── Get the local NetPlayer instance ─────────────────────────────────────────
++ (__int64)op_getLocalPlayer {
+    if (!op_netPlayerClass)
+        op_netPlayerClass = op_il2cpp_class_from_name(op_gameImage, "AnimalCompany", "NetPlayer");
+    if (!op_netPlayerClass) return 0;
+    if (!op_getLocalPlayerMethod)
+        op_getLocalPlayerMethod = op_il2cpp_class_get_method_from_name(op_netPlayerClass, "get_localPlayer", 0);
+    if (!op_getLocalPlayerMethod) return 0;
+    __int64 exc = 0;
+    __int64 result = op_il2cpp_runtime_invoke(op_getLocalPlayerMethod, 0, nil, &exc);
+    if (exc) return 0;
+    return result;
+}
+
+// ── Give money to the local player via NetPlayer.AddPlayerMoney ───────────────
++ (void)op_giveSelfMoney:(unsigned int)amount {
+    if (!op_giveSelfMoneyMethod) {
+        NSLog(@"[op] giveSelfMoney: AddPlayerMoney method not found, initializing...");
+        if (op_netPlayerClass)
+            op_giveSelfMoneyMethod =
+                op_il2cpp_class_get_method_from_name(op_netPlayerClass, "AddPlayerMoney", 1);
+    }
+    if (!op_giveSelfMoneyMethod) {
+        NSLog(@"[op] Failed to initialize AddPlayerMoney method");
+        return;
+    }
+    __int64 player = [self op_getLocalPlayer];
+    if (!player) { NSLog(@"[op] Could not get local player instance"); return; }
+    unsigned int val = amount;
+    void *args[] = { &val };
+    __int64 exc = 0;
+    op_il2cpp_runtime_invoke(op_giveSelfMoneyMethod, player, args, &exc);
+    if (exc) NSLog(@"[op] Exception while giving money: %p", (void *)exc);
+    else     NSLog(@"[op] Successfully gave %u money to local player", amount);
+}
+
+// ── Give money to all players via RPC_AddPlayerMoneyToAll ────────────────────
++ (void)op_giveAllPlayersMoney:(int)amount {
+    if (op_rpcAddPlayerMoneyToAllMethod &&
+        op_findObjectOfTypeMethod &&
+        op_il2cpp_class_get_type &&
+        op_il2cpp_type_get_object) {
+
+        __int64 type = op_il2cpp_class_get_type(op_itemSellingMachineClass);
+        __int64 obj  = op_il2cpp_type_get_object(type);
+        __int64 exc  = 0;
+        void *findArgs[] = { &obj };
+        __int64 controller =
+            op_il2cpp_runtime_invoke(op_findObjectOfTypeMethod, 0, findArgs, &exc);
+
+        if (!controller || exc) {
+            NSLog(@"[op] ItemSellingMachine controller not found or findObjectOfType had exception");
+        } else {
+            NSLog(@"[op] Found ItemSellingMachine controller, trying RPC_AddPlayerMoneyToAll");
+            int val = amount;
+            void *args1[] = { &val };
+            exc = 0;
+            op_il2cpp_runtime_invoke(op_rpcAddPlayerMoneyToAllMethod, controller, args1, &exc);
+            if (!exc) {
+                NSLog(@"[op] RPC_AddPlayerMoneyToAll invoked successfully (int)");
+                return;
+            }
+            NSLog(@"[op] RPC_AddPlayerMoneyToAll (int) exception, trying (int, RpcInfo=NULL) fallback");
+            void *args2[] = { &val, nil };
+            exc = 0;
+            op_il2cpp_runtime_invoke(op_rpcAddPlayerMoneyToAllMethod, controller, args2, &exc);
+            if (!exc) {
+                NSLog(@"[op] RPC_AddPlayerMoneyToAll invoked successfully (int, RpcInfo=NULL)");
+                return;
+            }
+            NSLog(@"[op] RPC_AddPlayerMoneyToAll fallback also failed");
+        }
+    } else {
+        NSLog(@"[op] RPC_AddPlayerMoneyToAll method or helpers not available");
+    }
+
+    // Fallback 1: GameManager.AddPlayerMoney
+    if (op_gameManagerAddPlayerMoneyMethod) {
+        NSLog(@"[op] Trying GameManager.AddPlayerMoney as fallback");
+        int val = amount;
+        void *args[] = { &val };
+        __int64 exc = 0;
+        op_il2cpp_runtime_invoke(op_gameManagerAddPlayerMoneyMethod, 0, args, &exc);
+        if (!exc) {
+            NSLog(@"[op] GameManager.AddPlayerMoney invoked successfully");
+            return;
+        }
+        NSLog(@"[op] GameManager.AddPlayerMoney threw an exception");
+    } else {
+        NSLog(@"[op] GameManager.AddPlayerMoney method not found");
+    }
+
+    // Fallback 2: self-only money
+    NSLog(@"[op] Falling back to giveSelfMoney for amount %d", amount);
+    [self op_giveSelfMoney:(unsigned int)amount];
+}
+
+// ── Spawn an item via PrefabGenerator.SpawnItem ──────────────────────────────
++ (void)op_spawnItem:(NSString *)itemName quantity:(int)quantity x:(float)x y:(float)y z:(float)z {
+    if (!op_spawnItemMethod || !op_il2cpp_string_new) return;
+    __int64 nameStr = op_il2cpp_string_new([itemName UTF8String]);
+    void *args[] = { &nameStr, &quantity, &x, &y, &z };
+    __int64 exc = 0;
+    op_il2cpp_runtime_invoke(op_spawnItemMethod, 0, args, &exc);
+    if (exc) NSLog(@"[op] SpawnItem exception for %@", itemName);
+    else     NSLog(@"[op] Spawned %d x %@ at (%.2f, %.2f, %.2f)", quantity, itemName, x, y, z);
+}
+
+@end

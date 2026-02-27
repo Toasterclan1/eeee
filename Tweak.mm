@@ -203,12 +203,16 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
     titleBar.layer.mask = shape;
     [self addSubview:titleBar];
 
-    UILabel* title = [[UILabel alloc] initWithFrame:CGRectMake(pad, 0, W-60, 40)];
-    title.text = @"insert name here";
-    title.font = [UIFont boldSystemFontOfSize:13];
-    title.textColor = [UIColor colorWithWhite:0.2 alpha:1];
-    title.letterSpacing = 1.5;
-    [titleBar addSubview:title];
+	UILabel* title = [[UILabel alloc] initWithFrame:CGRectMake(pad, 0, W-60, 40)];
+	title.text = @"insert name here";
+	title.font = [UIFont boldSystemFontOfSize:13];
+	title.textColor = [UIColor colorWithWhite:0.2 alpha:1];
+	NSMutableAttributedString *attributed = [[NSMutableAttributedString alloc] initWithString:title.text];
+	[attributed addAttribute:NSKernAttributeName value:@(1.5) range:NSMakeRange(0, attributed.length)];
+	[attributed addAttribute:NSFontAttributeName value:title.font range:NSMakeRange(0, attributed.length)];
+	[attributed addAttribute:NSForegroundColorAttributeName value:title.textColor range:NSMakeRange(0, attributed.length)];
+	title.attributedText = attributed;
+	[titleBar addSubview:title];
 
     // X close button
     UIButton* closeBtn = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -234,19 +238,17 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
     y += 38;
 
     // ── Item table ─────────────────────────────────────────────────────────
-    UITableView* tv = [[UITableView alloc] initWithFrame:CGRectMake(pad, y, W-pad*2, 130)
-                                                   style:UITableViewStylePlain];
-    tv.dataSource        = self;
-    tv.delegate          = self;
-    tv.rowHeight         = 28;
-    tv.layer.borderWidth = 1;
-    tv.layer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
-    tv.layer.cornerRadius = 6;
-    tv.font              = [UIFont monospacedSystemFontOfSize:11 weight:UIFontWeightRegular];
-    [self addSubview:tv];
-    self.itemTable = tv;
-    y += 136;
-
+	UITableView* tv = [[UITableView alloc] initWithFrame:CGRectMake(pad, y, W-pad*2, 130)
+												style:UITableViewStylePlain];
+	tv.dataSource        = self;
+	tv.delegate          = self;
+	tv.rowHeight         = 28;
+	tv.layer.borderWidth = 1;
+	tv.layer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
+	tv.layer.cornerRadius = 6;
+	[self addSubview:tv];
+	self.itemTable = tv;
+	y += 136;
     // ── Quantity row ───────────────────────────────────────────────────────
     UILabel* qLbl = [[UILabel alloc] initWithFrame:CGRectMake(pad, y+4, 70, 24)];
     qLbl.text      = @"QUANTITY";

@@ -463,7 +463,7 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
 @implementation FixedOrientationVC
 - (BOOL)shouldAutorotate { return NO; }
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscapeRight;
+    return UIInterfaceOrientationMaskPortrait;
 }
 @end
 
@@ -483,12 +483,7 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
     return inst;
 }
 
-- (void)setup {
-    CGRect screen = UIScreen.mainScreen.bounds;
-    if (screen.size.width > screen.size.height) {
-        screen = CGRectMake(0, 0, screen.size.height, screen.size.width);
-    }
-    self.screenRect = screen;
+	 CGRect screen = UIScreen.mainScreen.bounds;
 
     // Overlay window sits above everything
     self.overlayWindow = [[UIWindow alloc] initWithFrame:screen];
@@ -584,7 +579,7 @@ static void dylibMain() {
     installHook();
 
     // Then set up the UI overlay on the main thread
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)),
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
         [[SpawnerOverlay shared] setup];
         NSLog(@"[Spawner] overlay ready");

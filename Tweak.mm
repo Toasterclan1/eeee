@@ -483,7 +483,9 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
     return inst;
 }
 
-	 CGRect screen = UIScreen.mainScreen.bounds;
+- (void)setup {
+    CGRect screen = UIScreen.mainScreen.bounds;
+    self.screenRect = screen;
 
     // Overlay window sits above everything
     self.overlayWindow = [[UIWindow alloc] initWithFrame:screen];

@@ -423,7 +423,7 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
     NSString* msg = [NSString stringWithFormat:@"✓ %@ → (%.1f, %.1f, %.1f)", self.selectedItem, x, y, z];
     [self showStatus:msg color:[UIColor colorWithWhite:0.2 alpha:1]];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)),
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t_t)(1.0 * NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
         [btn setTitle:@"SPAWN ITEM" forState:UIControlStateNormal];
         btn.enabled = YES;
@@ -433,7 +433,7 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
 - (void)showStatus:(NSString*)msg color:(UIColor*)color {
     self.statusLabel.text      = msg;
     self.statusLabel.textColor = color;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)),
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t_t)(3.0 * NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
         self.statusLabel.text = @"";
     });
@@ -605,7 +605,7 @@ static void dylibMain() {
     installHook();
 
     // Then set up the UI overlay on the main thread
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)),
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t_t)(2.0 * NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
         [[SpawnerOverlay shared] setup];
         NSLog(@"[Spawner] overlay ready");
@@ -621,38 +621,38 @@ static void dylibMain() {
 static void*       op_il2cppHandle                        = nil;
 static BOOL        op_isInitialized                       = NO;
 
-static __int64 (*op_il2cpp_domain_get)(void);
-static __int64 (*op_il2cpp_domain_get_assemblies)(__int64, __int64 *);
-static __int64 (*op_il2cpp_assembly_get_image)(__int64);
-static const char *(*op_il2cpp_image_get_name)(__int64);
-static __int64 (*op_il2cpp_class_from_name)(__int64, const char *, const char *);
-static __int64 (*op_il2cpp_class_get_method_from_name)(__int64, const char *, int);
-static __int64 (*op_il2cpp_runtime_invoke)(__int64, __int64, void **, __int64 *);
-static __int64 (*op_il2cpp_resolve_icall)(const char *);
-static __int64 (*op_il2cpp_class_get_field_from_name)(__int64, const char *);
-static void    (*op_il2cpp_field_set_value)(__int64, __int64, void *);
-static __int64 (*op_il2cpp_field_get_value)(__int64, __int64, void *);
-static __int64 (*op_il2cpp_class_get_type)(__int64);
-static __int64 (*op_il2cpp_type_get_object)(__int64);
-static __int64 (*op_il2cpp_string_new)(const char *);
+static int64_t (*op_il2cpp_domain_get)(void);
+static int64_t (*op_il2cpp_domain_get_assemblies)(int64_t, int64_t *);
+static int64_t (*op_il2cpp_assembly_get_image)(int64_t);
+static const char *(*op_il2cpp_image_get_name)(int64_t);
+static int64_t (*op_il2cpp_class_from_name)(int64_t, const char *, const char *);
+static int64_t (*op_il2cpp_class_get_method_from_name)(int64_t, const char *, int);
+static int64_t (*op_il2cpp_runtime_invoke)(int64_t, int64_t, void **, int64_t *);
+static int64_t (*op_il2cpp_resolve_icall)(const char *);
+static int64_t (*op_il2cpp_class_get_field_from_name)(int64_t, const char *);
+static void    (*op_il2cpp_field_set_value)(int64_t, int64_t, void *);
+static int64_t (*op_il2cpp_field_get_value)(int64_t, int64_t, void *);
+static int64_t (*op_il2cpp_class_get_type)(int64_t);
+static int64_t (*op_il2cpp_type_get_object)(int64_t);
+static int64_t (*op_il2cpp_string_new)(const char *);
 
 // ── Cached game class / method handles ───────────────────────────────────────
-static __int64 op_gameImage                       = 0;
-static __int64 op_unityImage                      = 0;
-static __int64 op_netPlayerClass                  = 0;
-static __int64 op_prefabGeneratorClass            = 0;
-static __int64 op_gameObjectClass                 = 0;
-static __int64 op_transformClass                  = 0;
-static __int64 op_objectClass                     = 0;
-static __int64 op_gameManagerClass                = 0;
-static __int64 op_getLocalPlayerMethod            = 0;
-static __int64 op_giveSelfMoneyMethod             = 0;
-static __int64 op_spawnItemMethod                 = 0;
-static __int64 op_findObjectOfTypeMethod          = 0;
-static __int64 op_itemSellingMachineClass         = 0;
-static __int64 op_rpcAddPlayerMoneyToAllMethod    = 0;
-static __int64 op_gameManagerAddPlayerMoneyMethod = 0;
-static __int64 op_Transform_get_position_Injected = 0;
+static int64_t op_gameImage                       = 0;
+static int64_t op_unityImage                      = 0;
+static int64_t op_netPlayerClass                  = 0;
+static int64_t op_prefabGeneratorClass            = 0;
+static int64_t op_gameObjectClass                 = 0;
+static int64_t op_transformClass                  = 0;
+static int64_t op_objectClass                     = 0;
+static int64_t op_gameManagerClass                = 0;
+static int64_t op_getLocalPlayerMethod            = 0;
+static int64_t op_giveSelfMoneyMethod             = 0;
+static int64_t op_spawnItemMethod                 = 0;
+static int64_t op_findObjectOfTypeMethod          = 0;
+static int64_t op_itemSellingMachineClass         = 0;
+static int64_t op_rpcAddPlayerMoneyToAllMethod    = 0;
+static int64_t op_gameManagerAddPlayerMoneyMethod = 0;
+static int64_t op_Transform_get_position_Injected = 0;
 
 // ── Vec3 helper (shared with op category) ────────────────────────────────────
 typedef struct { float x; float y; float z; } OpVec3;
@@ -664,8 +664,8 @@ typedef struct { float x; float y; float z; } OpVec3;
 + (BOOL)op_initializeGameClasses;
 
 // Internal helpers
-+ (__int64)op_getImageNamed:(const char *)name;
-+ (__int64)op_getLocalPlayer;
++ (int64_t)op_getImageNamed:(const char *)name;
++ (int64_t)op_getLocalPlayer;
 
 // RPC / game actions
 + (void)op_giveSelfMoney:(unsigned int)amount;
@@ -677,15 +677,15 @@ typedef struct { float x; float y; float z; } OpVec3;
 @implementation NSObject (op)
 
 // ── Image lookup ─────────────────────────────────────────────────────────────
-+ (__int64)op_getImageNamed:(const char *)name {
++ (int64_t)op_getImageNamed:(const char *)name {
     if (!op_isInitialized) return 0;
-    __int64 domain = op_il2cpp_domain_get();
+    int64_t domain = op_il2cpp_domain_get();
     if (!domain) return 0;
-    __int64 count = 0;
-    __int64 assemblies = op_il2cpp_domain_get_assemblies(domain, &count);
-    for (__int64 i = 0; i < count; i++) {
-        __int64 assembly = *((__int64 *)(assemblies + 8 * i));
-        __int64 image    = op_il2cpp_assembly_get_image(assembly);
+    int64_t count = 0;
+    int64_t assemblies = op_il2cpp_domain_get_assemblies(domain, &count);
+    for (int64_t i = 0; i < count; i++) {
+        int64_t assembly = *((int64_t *)(assemblies + 8 * i));
+        int64_t image    = op_il2cpp_assembly_get_image(assembly);
         const char *imgName = op_il2cpp_image_get_name(image);
         if (imgName && strcmp(imgName, name) == 0) return image;
     }
@@ -780,15 +780,15 @@ typedef struct { float x; float y; float z; } OpVec3;
 }
 
 // ── Get the local NetPlayer instance ─────────────────────────────────────────
-+ (__int64)op_getLocalPlayer {
++ (int64_t)op_getLocalPlayer {
     if (!op_netPlayerClass)
         op_netPlayerClass = op_il2cpp_class_from_name(op_gameImage, "AnimalCompany", "NetPlayer");
     if (!op_netPlayerClass) return 0;
     if (!op_getLocalPlayerMethod)
         op_getLocalPlayerMethod = op_il2cpp_class_get_method_from_name(op_netPlayerClass, "get_localPlayer", 0);
     if (!op_getLocalPlayerMethod) return 0;
-    __int64 exc = 0;
-    __int64 result = op_il2cpp_runtime_invoke(op_getLocalPlayerMethod, 0, nil, &exc);
+    int64_t exc = 0;
+    int64_t result = op_il2cpp_runtime_invoke(op_getLocalPlayerMethod, 0, nil, &exc);
     if (exc) return 0;
     return result;
 }
@@ -805,11 +805,11 @@ typedef struct { float x; float y; float z; } OpVec3;
         NSLog(@"[op] Failed to initialize AddPlayerMoney method");
         return;
     }
-    __int64 player = [self op_getLocalPlayer];
+    int64_t player = [self op_getLocalPlayer];
     if (!player) { NSLog(@"[op] Could not get local player instance"); return; }
     unsigned int val = amount;
     void *args[] = { &val };
-    __int64 exc = 0;
+    int64_t exc = 0;
     op_il2cpp_runtime_invoke(op_giveSelfMoneyMethod, player, args, &exc);
     if (exc) NSLog(@"[op] Exception while giving money: %p", (void *)exc);
     else     NSLog(@"[op] Successfully gave %u money to local player", amount);
@@ -822,11 +822,11 @@ typedef struct { float x; float y; float z; } OpVec3;
         op_il2cpp_class_get_type &&
         op_il2cpp_type_get_object) {
 
-        __int64 type = op_il2cpp_class_get_type(op_itemSellingMachineClass);
-        __int64 obj  = op_il2cpp_type_get_object(type);
-        __int64 exc  = 0;
+        int64_t type = op_il2cpp_class_get_type(op_itemSellingMachineClass);
+        int64_t obj  = op_il2cpp_type_get_object(type);
+        int64_t exc  = 0;
         void *findArgs[] = { &obj };
-        __int64 controller =
+        int64_t controller =
             op_il2cpp_runtime_invoke(op_findObjectOfTypeMethod, 0, findArgs, &exc);
 
         if (!controller || exc) {
@@ -860,7 +860,7 @@ typedef struct { float x; float y; float z; } OpVec3;
         NSLog(@"[op] Trying GameManager.AddPlayerMoney as fallback");
         int val = amount;
         void *args[] = { &val };
-        __int64 exc = 0;
+        int64_t exc = 0;
         op_il2cpp_runtime_invoke(op_gameManagerAddPlayerMoneyMethod, 0, args, &exc);
         if (!exc) {
             NSLog(@"[op] GameManager.AddPlayerMoney invoked successfully");
@@ -879,9 +879,9 @@ typedef struct { float x; float y; float z; } OpVec3;
 // ── Spawn an item via PrefabGenerator.SpawnItem ──────────────────────────────
 + (void)op_spawnItem:(NSString *)itemName quantity:(int)quantity x:(float)x y:(float)y z:(float)z {
     if (!op_spawnItemMethod || !op_il2cpp_string_new) return;
-    __int64 nameStr = op_il2cpp_string_new([itemName UTF8String]);
+    int64_t nameStr = op_il2cpp_string_new([itemName UTF8String]);
     void *args[] = { &nameStr, &quantity, &x, &y, &z };
-    __int64 exc = 0;
+    int64_t exc = 0;
     op_il2cpp_runtime_invoke(op_spawnItemMethod, 0, args, &exc);
     if (exc) NSLog(@"[op] SpawnItem exception for %@", itemName);
     else     NSLog(@"[op] Spawned %d x %@ at (%.2f, %.2f, %.2f)", quantity, itemName, x, y, z);

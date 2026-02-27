@@ -36,7 +36,6 @@ static bool (*get_IsMine)(void *player);
 // Vector3 structure
 struct Vector3 {
     float x, y, z;
-    Vector3(float _x=0, float _y=0, float _z=0) : x(_x), y(_y), z(_z) {}
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -825,9 +824,9 @@ static void ELToast(NSString *msg, BOOL success) {
     d.backgroundColor = EL_DIVIDER;
     [_settingsPage addSubview:d];
 
-    [self addSliderRow:@"Color Hue" value:159 min:0   max:360  y:34  label:&_hueLabel   action:@selector(hueChanged:)];
-    [self addSliderRow:@"Color Sat" value:120 min:0   max:255  y:82  label:&_satLabel   action:@selector(satChanged:)];
-    [self addSliderRow:@"Scale"     value:0   min:-100 max:200 y:130 label:&_scaleLabel action:@selector(scaleChanged:)];
+[self addSliderRow:@"Color Hue" value:159 min:0   max:360  y:34  label:_hueLabel   action:@selector(hueChanged:)];
+[self addSliderRow:@"Color Sat" value:120 min:0   max:255  y:82  label:_satLabel   action:@selector(satChanged:)];
+[self addSliderRow:@"Scale"     value:0   min:-100 max:200 y:130 label:_scaleLabel action:@selector(scaleChanged:)];
 
     UIView *d2 = [[UIView alloc] initWithFrame:CGRectMake(10, 178, w - 20, 1)];
     d2.backgroundColor = EL_DIVIDER;

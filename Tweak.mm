@@ -147,7 +147,7 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
 //  ④ UI — UIKit overlay window drawn on top of the game
 // =============================================================================
 
-@interface SpawnerPanel : UIView <UITableViewDataSource, UITableViewDelegate>
+@interface SpawnerPanel : UIView <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 @property (nonatomic, strong) UITableView*    itemTable;
 @property (nonatomic, strong) NSMutableArray* filteredItems;
 @property (nonatomic, strong) NSString*       selectedItem;

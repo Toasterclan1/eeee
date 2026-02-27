@@ -1,0 +1,45 @@
+name: Build .deb Package
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Theos
+      run: |
+        git clone --depth=1 https://github.com/theos/theos.git ~/theos
+        echo "THEOS=~/theos" >> $GITHUB_ENV
+    
+    - name: Install Dependencies
+      run: |
+        brew install dpkg
+        cd ~/theos && git submodule update --init --recursive
+    
+    - name: Build .deb
+      run: |
+        export THEOS=~/theos
+        make clean
+        make package FINALPACKAGE=1
+    
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: deb-package
+        path: packages/*.deb
+    
+    - name: Create Release (on tag)
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: packages/*.deb
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

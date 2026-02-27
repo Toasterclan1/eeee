@@ -148,17 +148,17 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
 // =============================================================================
 
 @interface SpawnerPanel : UIView <UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, strong) UITableView*   itemTable;
+@property (nonatomic, strong) UITableView*    itemTable;
 @property (nonatomic, strong) NSMutableArray* filteredItems;
-@property (nonatomic, strong) NSString*      selectedItem;
-@property (nonatomic, strong) UITextField*   searchField;
-@property (nonatomic, strong) UITextField*   coordX;
-@property (nonatomic, strong) UITextField*   coordY;
-@property (nonatomic, strong) UITextField*   coordZ;
-@property (nonatomic, strong) UIStepper*     qtyStepper;
-@property (nonatomic, strong) UILabel*       qtyLabel;
-@property (nonatomic, strong) UILabel*       statusLabel;
-@property (nonatomic, assign) BOOL           isPanelOpen;
+@property (nonatomic, strong) NSString*       selectedItem;
+@property (nonatomic, strong) UITextField*    searchField;
+@property (nonatomic, strong) UITextField*    coordX;
+@property (nonatomic, strong) UITextField*    coordY;
+@property (nonatomic, strong) UITextField*    coordZ;
+@property (nonatomic, strong) UIStepper*      qtyStepper;
+@property (nonatomic, strong) UILabel*        qtyLabel;
+@property (nonatomic, strong) UILabel*        statusLabel;
+@property (nonatomic, assign) BOOL            isPanelOpen;
 @end
 
 @implementation SpawnerPanel
@@ -166,21 +166,20 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (!self) return nil;
-
     self.filteredItems = [itemList() mutableCopy];
     self.selectedItem  = itemList().firstObject;
     self.isPanelOpen   = NO;
-
     [self buildUI];
     return self;
 }
 
 - (void)buildUI {
-    CGFloat W = self.bounds.size.width;
-    CGFloat H = self.bounds.size.height;
+    CGFloat W   = self.bounds.size.width;
+    CGFloat pad = 12;
+    CGFloat y   = pad;
 
     // ── Background panel ──────────────────────────────────────────────────
-    self.backgroundColor = [UIColor colorWithWhite:0.92 alpha:0.97];
+    self.backgroundColor    = [UIColor colorWithWhite:0.92 alpha:0.97];
     self.layer.cornerRadius = 12;
     self.layer.shadowColor  = [UIColor blackColor].CGColor;
     self.layer.shadowOpacity = 0.35;
@@ -188,33 +187,28 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
     self.layer.shadowOffset  = CGSizeMake(0, 4);
     self.clipsToBounds = NO;
 
-    CGFloat pad = 12;
-    CGFloat y   = pad;
-
     // ── Title bar ──────────────────────────────────────────────────────────
     UIView* titleBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, W, 40)];
     titleBar.backgroundColor = [UIColor colorWithWhite:0.82 alpha:1];
-    UIRectCorner corners = UIRectCornerTopLeft | UIRectCornerTopRight;
     UIBezierPath* mask = [UIBezierPath bezierPathWithRoundedRect:titleBar.bounds
-                                               byRoundingCorners:corners
-                                                     cornerRadii:CGSizeMake(12,12)];
+                                               byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight
+                                                     cornerRadii:CGSizeMake(12, 12)];
     CAShapeLayer* shape = [CAShapeLayer layer];
     shape.path = mask.CGPath;
     titleBar.layer.mask = shape;
     [self addSubview:titleBar];
 
-	UILabel* title = [[UILabel alloc] initWithFrame:CGRectMake(pad, 0, W-60, 40)];
-	title.text = @"insert name here";
-	title.font = [UIFont boldSystemFontOfSize:13];
-	title.textColor = [UIColor colorWithWhite:0.2 alpha:1];
-	NSMutableAttributedString *attributed = [[NSMutableAttributedString alloc] initWithString:title.text];
-	[attributed addAttribute:NSKernAttributeName value:@(1.5) range:NSMakeRange(0, attributed.length)];
-	[attributed addAttribute:NSFontAttributeName value:title.font range:NSMakeRange(0, attributed.length)];
-	[attributed addAttribute:NSForegroundColorAttributeName value:title.textColor range:NSMakeRange(0, attributed.length)];
-	title.attributedText = attributed;
-	[titleBar addSubview:title];
+    UILabel* title = [[UILabel alloc] initWithFrame:CGRectMake(pad, 0, W-60, 40)];
+    title.text      = @"insert name here";
+    title.font      = [UIFont boldSystemFontOfSize:13];
+    title.textColor = [UIColor colorWithWhite:0.2 alpha:1];
+    NSMutableAttributedString* attributed = [[NSMutableAttributedString alloc] initWithString:title.text];
+    [attributed addAttribute:NSKernAttributeName           value:@(1.5)        range:NSMakeRange(0, attributed.length)];
+    [attributed addAttribute:NSFontAttributeName           value:title.font    range:NSMakeRange(0, attributed.length)];
+    [attributed addAttribute:NSForegroundColorAttributeName value:title.textColor range:NSMakeRange(0, attributed.length)];
+    title.attributedText = attributed;
+    [titleBar addSubview:title];
 
-    // X close button
     UIButton* closeBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     closeBtn.frame = CGRectMake(W-40, 8, 28, 24);
     [closeBtn setTitle:@"✕" forState:UIControlStateNormal];
@@ -227,28 +221,34 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
 
     // ── Search field ───────────────────────────────────────────────────────
     UITextField* sf = [[UITextField alloc] initWithFrame:CGRectMake(pad, y, W-pad*2, 32)];
-    sf.placeholder   = @"Search items...";
-    sf.font          = [UIFont systemFontOfSize:12];
-    sf.borderStyle   = UITextBorderStyleRoundedRect;
+    sf.placeholder     = @"Search items...";
+    sf.font            = [UIFont systemFontOfSize:12];
+    sf.borderStyle     = UITextBorderStyleRoundedRect;
     sf.backgroundColor = UIColor.whiteColor;
     sf.clearButtonMode = UITextFieldViewModeWhileEditing;
+    sf.returnKeyType   = UIReturnKeyDone;
+    sf.delegate        = self;
     [sf addTarget:self action:@selector(searchChanged:) forControlEvents:UIControlEventEditingChanged];
     [self addSubview:sf];
     self.searchField = sf;
     y += 38;
 
     // ── Item table ─────────────────────────────────────────────────────────
-	UITableView* tv = [[UITableView alloc] initWithFrame:CGRectMake(pad, y, W-pad*2, 130)
-												style:UITableViewStylePlain];
-	tv.dataSource        = self;
-	tv.delegate          = self;
-	tv.rowHeight         = 28;
-	tv.layer.borderWidth = 1;
-	tv.layer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
-	tv.layer.cornerRadius = 6;
-	[self addSubview:tv];
-	self.itemTable = tv;
-	y += 136;
+    UITableView* tv = [[UITableView alloc] initWithFrame:CGRectMake(pad, y, W-pad*2, 130)
+                                                   style:UITableViewStylePlain];
+    tv.dataSource        = self;
+    tv.delegate          = self;
+    tv.rowHeight         = 28;
+    tv.backgroundColor   = UIColor.whiteColor;      // FIX: explicit white bg
+    tv.separatorColor    = [UIColor colorWithWhite:0.85 alpha:1];
+    tv.layer.borderWidth = 1;
+    tv.layer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
+    tv.layer.cornerRadius = 6;
+    tv.clipsToBounds     = YES;                     // FIX: clip to rounded corners
+    [self addSubview:tv];
+    self.itemTable = tv;
+    y += 136;
+
     // ── Quantity row ───────────────────────────────────────────────────────
     UILabel* qLbl = [[UILabel alloc] initWithFrame:CGRectMake(pad, y+4, 70, 24)];
     qLbl.text      = @"QUANTITY";
@@ -292,9 +292,9 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
     for (int i = 0; i < 3; i++) {
         CGFloat fx = pad + i * (fw + 8);
         UILabel* lbl = [[UILabel alloc] initWithFrame:CGRectMake(fx, y, fw, 14)];
-        lbl.text      = labels[i];
-        lbl.font      = [UIFont boldSystemFontOfSize:10];
-        lbl.textColor = [UIColor colorWithWhite:0.5 alpha:1];
+        lbl.text          = labels[i];
+        lbl.font          = [UIFont boldSystemFontOfSize:10];
+        lbl.textColor     = [UIColor colorWithWhite:0.5 alpha:1];
         lbl.textAlignment = NSTextAlignmentCenter;
         [self addSubview:lbl];
         UITextField* fld = fields[i];
@@ -307,10 +307,10 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
     UIButton* spawnBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     spawnBtn.frame = CGRectMake(pad, y, W-pad*2, 42);
     [spawnBtn setTitle:@"SPAWN ITEM" forState:UIControlStateNormal];
-    spawnBtn.titleLabel.font = [UIFont boldSystemFontOfSize:14];
-    spawnBtn.backgroundColor = UIColor.whiteColor;
-    spawnBtn.layer.borderWidth = 2;
-    spawnBtn.layer.borderColor = [UIColor colorWithWhite:0.65 alpha:1].CGColor;
+    spawnBtn.titleLabel.font    = [UIFont boldSystemFontOfSize:14];
+    spawnBtn.backgroundColor    = UIColor.whiteColor;
+    spawnBtn.layer.borderWidth  = 2;
+    spawnBtn.layer.borderColor  = [UIColor colorWithWhite:0.65 alpha:1].CGColor;
     spawnBtn.layer.cornerRadius = 6;
     [spawnBtn setTitleColor:[UIColor colorWithWhite:0.3 alpha:1] forState:UIControlStateNormal];
     [spawnBtn addTarget:self action:@selector(spawnTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -330,13 +330,26 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
 
 - (UITextField*)makeCoordField {
     UITextField* f = [[UITextField alloc] init];
-    f.placeholder    = @"0";
-    f.keyboardType   = UIKeyboardTypeDecimalPad;
-    f.borderStyle    = UITextBorderStyleRoundedRect;
-    f.font           = [UIFont monospacedSystemFontOfSize:12 weight:UIFontWeightRegular];
-    f.textAlignment  = NSTextAlignmentCenter;
+    f.placeholder     = @"0";
+    f.keyboardType    = UIKeyboardTypeDecimalPad;
+    f.borderStyle     = UITextBorderStyleRoundedRect;
+    f.font            = [UIFont monospacedSystemFontOfSize:12 weight:UIFontWeightRegular];
+    f.textAlignment   = NSTextAlignmentCenter;
     f.backgroundColor = [UIColor colorWithWhite:0.96 alpha:1];
+    f.delegate        = self;
     return f;
+}
+
+// ── UITextFieldDelegate ────────────────────────────────────────────────────
+
+- (BOOL)textFieldShouldReturn:(UITextField*)tf {
+    [tf resignFirstResponder];
+    return YES;
+}
+
+// Dismiss keyboard when tapping outside a text field
+- (void)touchesBegan:(NSSet<UITouch*>*)touches withEvent:(UIEvent*)event {
+    [self endEditing:YES];
 }
 
 // ── Actions ────────────────────────────────────────────────────────────────
@@ -357,6 +370,8 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
 }
 
 - (void)spawnTapped:(UIButton*)btn {
+    [self endEditing:YES];
+
     if (!self.selectedItem) {
         [self showStatus:@"!! no item selected !!" color:[UIColor systemRedColor]];
         return;
@@ -401,14 +416,14 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
 }
 
 - (void)closePanel {
+    [self endEditing:YES];
     [UIView animateWithDuration:0.25 animations:^{
-        self.alpha = 0;
+        self.alpha     = 0;
         self.transform = CGAffineTransformMakeScale(0.92, 0.92);
     } completion:^(BOOL done) {
-        self.hidden = YES;
-        self.alpha = 1;
+        self.hidden    = YES;
+        self.alpha     = 1;
         self.transform = CGAffineTransformIdentity;
-        // show the floating toggle button again
         [[NSNotificationCenter defaultCenter] postNotificationName:@"SpawnerPanelClosed" object:nil];
     }];
 }
@@ -423,10 +438,10 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
     UITableViewCell* cell = [tv dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     NSString* item = self.filteredItems[ip.row];
-    cell.textLabel.text = item;
-    cell.textLabel.font = [UIFont monospacedSystemFontOfSize:11 weight:UIFontWeightRegular];
+    cell.textLabel.text      = item;
+    cell.textLabel.font      = [UIFont monospacedSystemFontOfSize:11 weight:UIFontWeightRegular];
     cell.textLabel.textColor = [UIColor colorWithWhite:0.3 alpha:1];
-    cell.backgroundColor = [item isEqualToString:self.selectedItem]
+    cell.backgroundColor     = [item isEqualToString:self.selectedItem]
         ? [UIColor colorWithWhite:0.85 alpha:1]
         : UIColor.whiteColor;
     return cell;
@@ -443,11 +458,20 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
 // =============================================================================
 //  ⑤ OVERLAY WINDOW + FLOATING TOGGLE BUTTON
 // =============================================================================
+@interface FixedOrientationVC : UIViewController
+@end
+@implementation FixedOrientationVC
+- (BOOL)shouldAutorotate { return NO; }
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscapeRight;
+}
+@end
 
 @interface SpawnerOverlay : NSObject
 @property (nonatomic, strong) UIWindow*      overlayWindow;
 @property (nonatomic, strong) SpawnerPanel*  panel;
 @property (nonatomic, strong) UIButton*      toggleBtn;
+@property (nonatomic)         CGRect         screenRect;
 @end
 
 @implementation SpawnerOverlay
@@ -461,6 +485,10 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
 
 - (void)setup {
     CGRect screen = UIScreen.mainScreen.bounds;
+    if (screen.size.width > screen.size.height) {
+        screen = CGRectMake(0, 0, screen.size.height, screen.size.width);
+    }
+    self.screenRect = screen;
 
     // Overlay window sits above everything
     self.overlayWindow = [[UIWindow alloc] initWithFrame:screen];
@@ -468,10 +496,13 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
     self.overlayWindow.backgroundColor = UIColor.clearColor;
     self.overlayWindow.userInteractionEnabled = YES;
 
-    UIViewController* root = [UIViewController new];
+    FixedOrientationVC* root = [FixedOrientationVC new];
     root.view.backgroundColor = UIColor.clearColor;
     self.overlayWindow.rootViewController = root;
     [self.overlayWindow makeKeyAndVisible];
+
+    root.view.frame = screen;
+    root.view.bounds = CGRectMake(0, 0, screen.size.width, screen.size.height);
 
     // ── Panel (hidden until toggle tapped) ────────────────────────────────
     CGFloat pw = MIN(screen.size.width * 0.85, 400);
@@ -498,15 +529,12 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
     [btn setTitleColor:[UIColor colorWithWhite:0.3 alpha:1] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(togglePanel) forControlEvents:UIControlEventTouchUpInside];
 
-    // Make it draggable
     UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]
                                     initWithTarget:self action:@selector(dragBtn:)];
     [btn addGestureRecognizer:pan];
-
     [root.view addSubview:btn];
     self.toggleBtn = btn;
 
-    // Listen for panel close
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(panelClosed)
                                                  name:@"SpawnerPanelClosed"
@@ -516,9 +544,9 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
 - (void)togglePanel {
     BOOL open = self.panel.hidden;
     if (open) {
-        self.panel.hidden    = NO;
-        self.panel.alpha     = 0;
-        self.panel.transform = CGAffineTransformMakeScale(0.9, 0.9);
+        self.panel.hidden     = NO;
+        self.panel.alpha      = 0;
+        self.panel.transform  = CGAffineTransformMakeScale(0.9, 0.9);
         self.toggleBtn.hidden = YES;
         [UIView animateWithDuration:0.25 animations:^{
             self.panel.alpha     = 1;
@@ -532,10 +560,10 @@ static void executeSpawn(NSString* itemId, float x, float y, float z, int qty) {
 }
 
 - (void)dragBtn:(UIPanGestureRecognizer*)pan {
-    UIView* v = pan.view;
+    UIView* v     = pan.view;
     CGPoint delta = [pan translationInView:v.superview];
     CGRect  f     = v.frame;
-    f.origin.y = MAX(0, MIN(UIScreen.mainScreen.bounds.size.height - f.size.height,
+    f.origin.y = MAX(0, MIN(self.screenRect.size.height - f.size.height,
                             f.origin.y + delta.y));
     v.frame = f;
     [pan setTranslation:CGPointZero inView:v.superview];

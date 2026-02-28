@@ -1,5 +1,8 @@
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioToolbox.h>
+#include <dlfcn.h>
+#include <mach-o/dyld.h>
+#include <stdint.h>
 
 static NSInteger spawnQuantity = 1;
 static float customSpawnX = 0.0f;
@@ -81,20 +84,20 @@ static BOOL initializeIL2CPP(void) {
     if (!il2cppHandle) il2cppHandle = dlopen(0, 2);
     if (!il2cppHandle) return NO;
 
-    il2cpp_domain_get = dlsym(il2cppHandle, "il2cpp_domain_get");
-    il2cpp_domain_get_assemblies = dlsym(il2cppHandle, "il2cpp_domain_get_assemblies");
-    il2cpp_assembly_get_image = dlsym(il2cppHandle, "il2cpp_assembly_get_image");
-    il2cpp_image_get_name = dlsym(il2cppHandle, "il2cpp_image_get_name");
-    il2cpp_class_from_name = dlsym(il2cppHandle, "il2cpp_class_from_name");
-    il2cpp_class_get_method_from_name = dlsym(il2cppHandle, "il2cpp_class_get_method_from_name");
-    il2cpp_string_new = dlsym(il2cppHandle, "il2cpp_string_new");
-    il2cpp_runtime_invoke = dlsym(il2cppHandle, "il2cpp_runtime_invoke");
-    il2cpp_resolve_icall = dlsym(il2cppHandle, "il2cpp_resolve_icall");
-    il2cpp_class_get_field_from_name = dlsym(il2cppHandle, "il2cpp_class_get_field_from_name");
-    il2cpp_field_get_value = dlsym(il2cppHandle, "il2cpp_field_get_value");
-    il2cpp_field_set_value = dlsym(il2cppHandle, "il2cpp_field_set_value");
-    il2cpp_class_get_type = dlsym(il2cppHandle, "il2cpp_class_get_type");
-    il2cpp_type_get_object = dlsym(il2cppHandle, "il2cpp_type_get_object");
+    il2cpp_domain_get = (int64_t (*)(void))dlsym(il2cppHandle, "il2cpp_domain_get");
+    il2cpp_domain_get_assemblies = (int64_t (*)(int64_t, int64_t *))dlsym(il2cppHandle, "il2cpp_domain_get_assemblies");
+    il2cpp_assembly_get_image = (int64_t (*)(int64_t))dlsym(il2cppHandle, "il2cpp_assembly_get_image");
+    il2cpp_image_get_name = (const char *(*)(int64_t))dlsym(il2cppHandle, "il2cpp_image_get_name");
+    il2cpp_class_from_name = (int64_t (*)(int64_t, const char *, const char *))dlsym(il2cppHandle, "il2cpp_class_from_name");
+    il2cpp_class_get_method_from_name = (int64_t (*)(int64_t, const char *, int))dlsym(il2cppHandle, "il2cpp_class_get_method_from_name");
+    il2cpp_string_new = (int64_t (*)(const char *))dlsym(il2cppHandle, "il2cpp_string_new");
+    il2cpp_runtime_invoke = (int64_t (*)(int64_t, int64_t, void **, int64_t *))dlsym(il2cppHandle, "il2cpp_runtime_invoke");
+    il2cpp_resolve_icall = (int64_t (*)(const char *))dlsym(il2cppHandle, "il2cpp_resolve_icall");
+    il2cpp_class_get_field_from_name = (int64_t (*)(int64_t, const char *))dlsym(il2cppHandle, "il2cpp_class_get_field_from_name");
+    il2cpp_field_get_value = (int64_t (*)(int64_t, int64_t, void *))dlsym(il2cppHandle, "il2cpp_field_get_value");
+    il2cpp_field_set_value = (void (*)(int64_t, int64_t, void *))dlsym(il2cppHandle, "il2cpp_field_set_value");
+    il2cpp_class_get_type = (int64_t (*)(int64_t))dlsym(il2cppHandle, "il2cpp_class_get_type");
+    il2cpp_type_get_object = (int64_t (*)(int64_t))dlsym(il2cppHandle, "il2cpp_type_get_object");
 
     if (il2cpp_domain_get && il2cpp_class_from_name && il2cpp_class_get_method_from_name && il2cpp_class_get_type && il2cpp_type_get_object) {
         Transform_get_position_Injected = il2cpp_resolve_icall("UnityEngine.Transform::get_position_Injected");
@@ -135,6 +138,12 @@ static BOOL initializeGameClasses(void) {
     if (gameManagerClass)
         gameManagerAddPlayerMoneyMethod = il2cpp_class_get_method_from_name(gameManagerClass, "AddPlayerMoney", 1);
     return YES;
+}
+
+static int64_t getLocalPlayer(void) {
+    if (!getLocalPlayerMethod) return 0;
+    int64_t exc = 0;
+    return il2cpp_runtime_invoke(getLocalPlayerMethod, 0, nil, &exc);
 }
 
 static float getPlayerPosition(void) {

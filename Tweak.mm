@@ -152,37 +152,37 @@ static NSArray *filteredItems = nil;
 static void *il2cppHandle = nil;
 static BOOL isInitialized = NO;
 
-static __int64 (*il2cpp_domain_get)(void);
-static __int64 (*il2cpp_domain_get_assemblies)(__int64, __int64 *);
-static __int64 (*il2cpp_assembly_get_image)(__int64);
-static const char *(*il2cpp_image_get_name)(__int64);
-static __int64 (*il2cpp_class_from_name)(__int64, const char *, const char *);
-static __int64 (*il2cpp_class_get_method_from_name)(__int64, const char *, int);
-static __int64 (*il2cpp_runtime_invoke)(__int64, __int64, void **, __int64 *);
-static __int64 (*il2cpp_resolve_icall)(const char *);
-static __int64 (*il2cpp_class_get_field_from_name)(__int64, const char *);
-static void (*il2cpp_field_set_value)(__int64, __int64, void *);
-static __int64 (*il2cpp_field_get_value)(__int64, __int64, void *);
-static __int64 (*il2cpp_class_get_type)(__int64);
-static __int64 (*il2cpp_type_get_object)(__int64);
-static __int64 (*il2cpp_string_new)(const char *);
+static init64_t (*il2cpp_domain_get)(void);
+static init64_t (*il2cpp_domain_get_assemblies)(init64_t, init64_t *);
+static init64_t (*il2cpp_assembly_get_image)(init64_t);
+static const char *(*il2cpp_image_get_name)(init64_t);
+static init64_t (*il2cpp_class_from_name)(init64_t, const char *, const char *);
+static init64_t (*il2cpp_class_get_method_from_name)(init64_t, const char *, int);
+static init64_t (*il2cpp_runtime_invoke)(init64_t, init64_t, void **, init64_t *);
+static init64_t (*il2cpp_resolve_icall)(const char *);
+static init64_t (*il2cpp_class_get_field_from_name)(init64_t, const char *);
+static void (*il2cpp_field_set_value)(init64_t, init64_t, void *);
+static init64_t (*il2cpp_field_get_value)(init64_t, init64_t, void *);
+static init64_t (*il2cpp_class_get_type)(init64_t);
+static init64_t (*il2cpp_type_get_object)(init64_t);
+static init64_t (*il2cpp_string_new)(const char *);
 
-static __int64 gameImage = 0;
-static __int64 unityImage = 0;
-static __int64 netPlayerClass = 0;
-static __int64 prefabGeneratorClass = 0;
-static __int64 gameObjectClass = 0;
-static __int64 transformClass = 0;
-static __int64 objectClass = 0;
-static __int64 gameManagerClass = 0;
-static __int64 getLocalPlayerMethod = 0;
-static __int64 giveSelfMoneyMethod = 0;
-static __int64 spawnItemMethod = 0;
-static __int64 findObjectOfTypeMethod = 0;
-static __int64 itemSellingMachineClass = 0;
-static __int64 rpcAddPlayerMoneyToAllMethod = 0;
-static __int64 gameManagerAddPlayerMoneyMethod = 0;
-static __int64 Transform_get_position_Injected = 0;
+static init64_t gameImage = 0;
+static init64_t unityImage = 0;
+static init64_t netPlayerClass = 0;
+static init64_t prefabGeneratorClass = 0;
+static init64_t gameObjectClass = 0;
+static init64_t transformClass = 0;
+static init64_t objectClass = 0;
+static init64_t gameManagerClass = 0;
+static init64_t getLocalPlayerMethod = 0;
+static init64_t giveSelfMoneyMethod = 0;
+static init64_t spawnItemMethod = 0;
+static init64_t findObjectOfTypeMethod = 0;
+static init64_t itemSellingMachineClass = 0;
+static init64_t rpcAddPlayerMoneyToAllMethod = 0;
+static init64_t gameManagerAddPlayerMoneyMethod = 0;
+static init64_t Transform_get_position_Injected = 0;
 
 static UIButton *menuButton = nil;
 static id menuController = nil;
@@ -193,15 +193,15 @@ static NSArray *presetLocationNames;
 static Vec3 presetLocationCoords[13];
 
 
-static __int64 getImage(const char *name) {
+static init64_t getImage(const char *name) {
     if (!isInitialized) return 0;
-    __int64 domain = il2cpp_domain_get();
+    init64_t domain = il2cpp_domain_get();
     if (!domain) return 0;
-    __int64 count = 0;
-    __int64 assemblies = il2cpp_domain_get_assemblies(domain, &count);
-    for (__int64 i = 0; i < count; i++) {
-        __int64 assembly = *((__int64 *)(assemblies + 8 * i));
-        __int64 image = il2cpp_assembly_get_image(assembly);
+    init64_t count = 0;
+    init64_t assemblies = il2cpp_domain_get_assemblies(domain, &count);
+    for (init64_t i = 0; i < count; i++) {
+        init64_t assembly = *((init64_t *)(assemblies + 8 * i));
+        init64_t image = il2cpp_assembly_get_image(assembly);
         const char *imgName = il2cpp_image_get_name(image);
         if (imgName && strcmp(imgName, name) == 0) return image;
     }
@@ -276,13 +276,13 @@ static BOOL initializeGameClasses(void) {
     return YES;
 }
 
-static __int64 getLocalPlayer(void) {
+static init64_t getLocalPlayer(void) {
     if (!netPlayerClass) netPlayerClass = il2cpp_class_from_name(gameImage, "AnimalCompany", "NetPlayer");
     if (!netPlayerClass) return 0;
     if (!getLocalPlayerMethod) getLocalPlayerMethod = il2cpp_class_get_method_from_name(netPlayerClass, "get_localPlayer", 0);
     if (!getLocalPlayerMethod) return 0;
-    __int64 exc = 0;
-    __int64 result = il2cpp_runtime_invoke(getLocalPlayerMethod, 0, nil, &exc);
+    init64_t exc = 0;
+    init64_t result = il2cpp_runtime_invoke(getLocalPlayerMethod, 0, nil, &exc);
     if (exc) return 0;
     return result;
 }
@@ -307,11 +307,11 @@ static void giveSelfMoney(unsigned int amount) {
         NSLog(@"[ACMod] Failed to initialize AddPlayerMoney method");
         return;
     }
-    __int64 player = getLocalPlayer();
+    init64_t player = getLocalPlayer();
     if (!player) { NSLog(@"[ACMod] Could not get local player instance"); return; }
     unsigned int val = amount;
     void *args[] = { &val };
-    __int64 exc = 0;
+    init64_t exc = 0;
     il2cpp_runtime_invoke(giveSelfMoneyMethod, player, args, &exc);
     if (exc) NSLog(@"[ACMod] Exception while giving money: %p", (void *)exc);
     else NSLog(@"[ACMod] Successfully gave %u money to local player", amount);
@@ -319,11 +319,11 @@ static void giveSelfMoney(unsigned int amount) {
 
 static void giveAllPlayersMoney(int amount) {
     if (rpcAddPlayerMoneyToAllMethod && findObjectOfTypeMethod && il2cpp_class_get_type && il2cpp_type_get_object) {
-        __int64 type = il2cpp_class_get_type(itemSellingMachineClass);
-        __int64 obj = il2cpp_type_get_object(type);
-        __int64 exc = 0;
+        init64_t type = il2cpp_class_get_type(itemSellingMachineClass);
+        init64_t obj = il2cpp_type_get_object(type);
+        init64_t exc = 0;
         void *findArgs[] = { &obj };
-        __int64 controller = il2cpp_runtime_invoke(findObjectOfTypeMethod, 0, findArgs, &exc);
+        init64_t controller = il2cpp_runtime_invoke(findObjectOfTypeMethod, 0, findArgs, &exc);
         if (!controller || exc) {
             NSLog(@"[ACMod] ItemSellingMachine controller not found or findObjectOfType had exception");
         } else {
@@ -347,7 +347,7 @@ static void giveAllPlayersMoney(int amount) {
         NSLog(@"[ACMod] Trying GameManager.AddPlayerMoney as fallback");
         int val = amount;
         void *args[] = { &val };
-        __int64 exc = 0;
+        init64_t exc = 0;
         il2cpp_runtime_invoke(gameManagerAddPlayerMoneyMethod, 0, args, &exc);
         if (!exc) { NSLog(@"[ACMod] GameManager.AddPlayerMoney invoked successfully"); return; }
         NSLog(@"[ACMod] GameManager.AddPlayerMoney invocation threw an exception");
@@ -360,10 +360,10 @@ static void giveAllPlayersMoney(int amount) {
 
 static void spawnItem(NSString *itemName, int quantity, float x, float y, float z) {
     if (!spawnItemMethod || !il2cpp_string_new) return;
-    __int64 nameStr = il2cpp_string_new([itemName UTF8String]);
+    init64_t nameStr = il2cpp_string_new([itemName UTF8String]);
     float scale = 1.0f;
     void *args[] = { &nameStr, &quantity, &x, &y, &z };
-    __int64 exc = 0;
+    init64_t exc = 0;
     il2cpp_runtime_invoke(spawnItemMethod, 0, args, &exc);
 }
 
@@ -737,13 +737,13 @@ static BOOL saveSettings(void) {
 }
 
 - (void)giveInfAmmo {
-    __int64 player = getLocalPlayer();
+    init64_t player = getLocalPlayer();
     if (!player) {
     [self showStatus:@"Could not find local player" color:UIColor.blackColor];
         return;
     }
     if (!netPlayerClass) { return; }
-    __int64 field = il2cpp_class_get_field_from_name(netPlayerClass, "ammo");
+    init64_t field = il2cpp_class_get_field_from_name(netPlayerClass, "ammo");
     if (field) {
         int val = 9999;
         il2cpp_field_set_value(player, field, &val);
@@ -755,13 +755,13 @@ static BOOL saveSettings(void) {
 }
 
 - (void)removeShopCooldown {
-    __int64 player = getLocalPlayer();
+    init64_t player = getLocalPlayer();
     if (!player) {
     [self showStatus:@"Could not find local player" color:UIColor.blackColor];
         return;
     }
     if (!netPlayerClass) return;
-    __int64 field = il2cpp_class_get_field_from_name(netPlayerClass, "shopCooldown");
+    init64_t field = il2cpp_class_get_field_from_name(netPlayerClass, "shopCooldown");
     if (!field) field = il2cpp_class_get_field_from_name(netPlayerClass, "lastBuyTime");
     if (!field) field = il2cpp_class_get_field_from_name(netPlayerClass, "buyTimer");
     if (field) {
